@@ -36,7 +36,7 @@ class WebHook extends Command
 
         $json = $response->getBody();
 
-        var_dump($json);
+        var_dump($json->read(100));
 
         if (!empty($json['ok']) && $json['ok'] === true) {
             $this->output->writeln('Success');
