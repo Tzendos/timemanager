@@ -13,8 +13,12 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+Route::middleware('auth:api')->get('/user', static function (Request $request) {
     return $request->user();
+});
+
+Route::post(config('telegram.bot_token'), static function () {
+    Telegram::commandsHandler(true);
 });
 
 Route::post('/<token>/webhook', static function () {
