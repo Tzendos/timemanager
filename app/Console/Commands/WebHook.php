@@ -28,20 +28,27 @@ class WebHook extends Command
      */
     public function handle()
     {
-        $client = new Client(['base_uri' => 'https://api.telegram.org/bot' . \config('telegram.bot_token') . '/']);
-
-        $response = $client->request('POST', 'setwebhook', [
-            'query' => ['url' => 'https://167.172.102.22/' . \config('telegram.bot_token')]
+        $response = Telegram::setWebhook([
+            'url' => 'https://167.172.102.22/' . \config('telegram.bot_token') . '/webhook',
+            'certificate' => '/etc/ssl/certs/nginx-selfsigned.crt'
         ]);
 
-        $json = $response->getBody();
+        var_dump($response);
 
-        var_dump($json->read(100));
-
-        if (!empty($json['ok']) && $json['ok'] === true) {
-            $this->output->writeln('Success');
-        } else {
-            $this->output->error('Failed');
-        }
+//        $client = new Client(['base_uri' => 'https://api.telegram.org/bot' . \config('telegram.bot_token') . '/']);
+//
+//        $response = $client->request('POST', 'setwebhook', [
+//            'query' => ['url' => 'https://167.172.102.22/' . \config('telegram.bot_token')]
+//        ]);
+//
+//        $json = $response->getBody();
+//
+//        var_dump($json->read(100));
+//
+//        if (!empty($json['ok']) && $json['ok'] === true) {
+//            $this->output->writeln('Success');
+//        } else {
+//            $this->output->error('Failed');
+//        }
     }
 }
