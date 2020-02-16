@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use GuzzleHttp\Client;
 use Illuminate\Console\Command;
+use Telegram\Bot\Api;
 
 class WebHook extends Command
 {
@@ -28,7 +29,10 @@ class WebHook extends Command
      */
     public function handle()
     {
-        $response = Telegram::setWebhook([
+        /** @var Api $a */
+        $api = \app('telegram');
+
+        $response = $api->setWebhook([
             'url' => 'https://167.172.102.22/' . \config('telegram.bot_token') . '/webhook',
             'certificate' => '/etc/ssl/certs/nginx-selfsigned.crt'
         ]);
