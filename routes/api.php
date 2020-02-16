@@ -21,7 +21,7 @@ Route::post(config('telegram.bot_token'), static function () {
     Telegram::commandsHandler(true);
 });
 
-Route::post('/<token>/webhook', static function () {
+Route::post(config('telegram.bot_token') . '/webhook', static function () {
     $updates = Telegram::getWebhookUpdates();
     return 'ok';
 });
