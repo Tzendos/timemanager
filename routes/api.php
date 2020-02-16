@@ -18,10 +18,15 @@ Route::middleware('auth:api')->get('/user', static function (Request $request) {
 });
 
 Route::post(config('telegram.bot_token'), static function () {
-    Telegram::commandsHandler(true);
+    $api = \app('telegram');
+    Log::info('Receive message');
+    $api->commandsHandler(true);
 });
 
 Route::post(config('telegram.bot_token') . '/webhook', static function () {
     $updates = Telegram::getWebhookUpdates();
+    Log::info('Receive updates');
+    Log::error(json_encode($updates));
+    Telegram::commandsHandler(true);
     return 'ok';
 });
