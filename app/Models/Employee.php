@@ -43,4 +43,9 @@ class Employee extends Model
     {
         return $this->hasMany(Report::class, 'employee_id', 'id');
     }
+
+    public function getFullNameAttribute(): string
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
 }

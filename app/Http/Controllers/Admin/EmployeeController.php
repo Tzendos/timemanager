@@ -38,17 +38,42 @@ class EmployeeController extends CrudController
 
     protected function setupListOperation(): void
     {
-        $this->crud->setFromDb();
+        $this->addColumns();
+        $this->crud->enableExportButtons();
     }
 
     protected function setupCreateOperation(): void
     {
         $this->crud->setValidation(EmployeeRequest::class);
-        $this->crud->setFromDb();
+
+        $this->addFields();
     }
 
     protected function setupUpdateOperation(): void
     {
-        $this->setupCreateOperation();
+        $this->crud->setValidation(EmployeeRequest::class);
+
+        $this->addFields();
+    }
+
+    protected function addColumns(): void
+    {
+        $this->crud->addColumns([
+            'id',
+            'chat_id',
+            'first_name',
+            'last_name',
+            'created_at',
+            'updated_at',
+        ]);
+    }
+
+    protected function addFields(): void
+    {
+        $this->crud->addFields([
+            'chat_id',
+            'first_name',
+            'last_name',
+        ]);
     }
 }

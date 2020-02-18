@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Admin\Employee;
 use App\Models\Admin\Report;
 use App\Http\Requests\ReportCrudRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
@@ -38,17 +39,53 @@ class ReportController extends CrudController
 
     protected function setupListOperation(): void
     {
-        $this->crud->setFromDb();
+        $this->addColumns();
+        $this->crud->enableExportButtons();
     }
 
     protected function setupCreateOperation(): void
     {
         $this->crud->setValidation(ReportCrudRequest::class);
-        $this->crud->setFromDb();
+
+        $this->addFields();
     }
 
     protected function setupUpdateOperation(): void
     {
-        $this->setupCreateOperation();
+        $this->crud->setValidation(ReportCrudRequest::class);
+
+        $this->addFields();
+    }
+
+    protected function addColumns(): void
+    {
+        $this->crud->addColumns([
+            'id',
+            [
+                'name' => 'employee_id',
+                'label' => 'Employee',
+                'type' => 'closure',
+                'function' => static function (Report $report) {
+                    return $report->employee->first_name . ' ' . $report->employee->last_name;
+                }
+            ],
+            'created_at',
+            'updated_at',
+        ]);
+    }
+
+    protected function addFields(): void
+    {
+        $this->crud->addFields([
+            [
+                'label' => 'User',
+                'type' => 'select2',
+                'name' => 'employee_id',
+                'entity' => 'employee',
+                'attribute' => 'full_name',
+                'model' => Employee::class,
+            ],
+            'content',
+        ]);
     }
 }
