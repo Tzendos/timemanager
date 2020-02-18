@@ -17,5 +17,6 @@ Route::middleware('auth:api')->get('/user', static function (Request $request) {
     return $request->user();
 });
 
+Route::get('reports', 'Api\ReportController@index');
 Route::post('reports', 'Api\ReportController@store');
 Route::get('employee/{chat_id}', 'Api\EmployeeController@search');

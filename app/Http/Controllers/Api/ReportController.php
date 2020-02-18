@@ -13,6 +13,29 @@ use App\Http\Requests\ReportRequest;
  */
 class ReportController extends Controller
 {
+    public function index()
+    {
+        $ids = [];
+
+        $employees = Employee::query()
+            ->with(['reports'])
+            ->get();
+
+        foreach ($employees as $employee) {
+            $find = false;
+            foreach ($employee->reports as $report) {
+                if ($report->created_at->isCurrentDay()) {
+                    $find = true;
+                }
+            }
+            if (!$find) {
+                $ids[] = $employee->chat_id;
+            }
+        }
+
+        return $ids;
+    }
+
     public function store(ReportRequest $request)
     {
         $attributes = $request->validated();
