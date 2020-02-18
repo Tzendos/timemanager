@@ -11,9 +11,8 @@ use Backpack\CRUD\app\Models\Traits\InheritsRelationsFromParentModel;
 use Backpack\CRUD\app\Notifications\ResetPasswordNotification as ResetPasswordNotification;
 
 /**
- * Class User
+ * App\Models\Admin\User
  *
- * @package App\Models
  * @property int $id
  * @property string $name
  * @property string $email
